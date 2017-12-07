@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const db = require('../db');
 
+router.use('/users', require('./users'))
+
 router.get('/', function (req, res) {
     res.send('Welcome to cordon blue api!')
 })
