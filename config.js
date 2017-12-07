@@ -8,6 +8,3 @@ exports.db = {
   idleTimeoutMillis: 3000,
   connectionTimeoutMillis: 3000
 };
-
-console.log(process.env.dbuser)
-console.log(process.env.dbpasswd)
