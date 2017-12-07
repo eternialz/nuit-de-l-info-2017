@@ -9,7 +9,7 @@ function _assertNotNull(data){
   return true
 }
 
-router.post('/saveReport', function(req, res){
+router.post('/save', function(req, res){
     var position = req.body.position
     var type = req.body.type
 
@@ -33,7 +33,8 @@ router.post('/saveReport', function(req, res){
           success: true
         })
     })
-
 })
+
+
 
 module.exports = router;
