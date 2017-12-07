@@ -38,4 +38,11 @@ router.post('/register', function (req, res) {
     })
 })
 
+router.post('/auth', function (req, res) {
+    var userName = req.body.name;
+    var userEmail = req.body.email;
+    var userPassword = req.body.password;
+    //
+}
+
 module.exports = router;
