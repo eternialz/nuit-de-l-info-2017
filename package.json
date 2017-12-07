@@ -1,0 +1,31 @@
+{
+  "name": "nuit-de-l-info-2017-api",
+  "version": "0.0.1",
+  "description": "restfullapi for nuit de l'info 2017 (groupe supinfo strasbourg)",
+  "main": "app.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "pg": "^7.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eternialz/nuit-de-l-info-2017-api.git"
+  },
+  "keywords": [
+    "road safety",
+    "restfull api"
+  ],
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/eternialz/nuit-de-l-info-2017-api/issues"
+  },
+  "homepage": "https://github.com/eternialz/nuit-de-l-info-2017-api#readme"
+}
