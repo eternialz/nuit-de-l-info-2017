@@ -17,12 +17,11 @@ deploy:
     on:
         all_branches: true
     bucket: corbon-blue
-  - provider: codedeploy
+  - provider: elasticbeanstalk
     access_key_id: $AWS_ACCESS_KEY_ID
     secret_access_key: $AWS_SECRET_ACCESS_KEY
-    bucket: corbon-blue
-    key: cordonblue_v0.0.1.$TRAVIS_BUILD_NUMBER.zip
-    bundle_type: zip
-    application: $EB_APP_ENV
-    deployment_group: $EB_APP_NAME
+    env: $EB_APP_ENV
+    app: $EB_APP_NAME
     region: $AWS_DEFAULT_REGION
+    bucket: corbon-blue
+    zip_file: cordonblue_v0.0.1.$TRAVIS_BUILD_NUMBER.zip
