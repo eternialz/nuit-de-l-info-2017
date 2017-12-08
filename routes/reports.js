@@ -73,6 +73,49 @@ router.post('/create', function(req, res) {
     })
 })
 
+router.post('/createbyname', function(req, res) {
+    //Vérifier si les données envoyées sont null, si oui renvoyer une exception
+    if(_assertNotNull(req.body)) {
+        return res.json({
+            success: false,
+            error : 'Data validation error'
+        })
+    }
+
+    db.getClient((err, client, done) => {
+        client.query('SELECT report_typeid FROM reports_types WHERE name=$1', [req.body.type], (err, result) => {
+            if(err) {
+                done()
+                return res.json({
+                    success: false,
+                    error : 'SQL error : ' + err.stack
+                })
+            }
+            else if(!result.rows || !result.rows[0]) {
+                done()
+                return res.json({
+                    success: false,
+                    error : 'Invalid name!'
+                })
+            }
+            else {
+                client.query('INSERT INTO reports(latitude, longitude, report_type, userid) VALUES ($1, $2, $3, $4)', [req.body.latitude, req.body.longitude, result.rows[0].report_typeid, req.decoded.userid], (err2, result2) => {
+                    done()
+                    if(err2) {
+                        return res.json({
+                            success: false,
+                            error : 'SQL error : ' + err2.stack
+                        })
+                    }
+                    return res.json({
+                        success: true
+                    })
+                })
+            }
+        })
+    })
+})
+
 router.get('/history', (req, res) => {
     db.query('SELECT r.reportid, r.latitude, r.longitude, r.report_time, t.name FROM reports r INNER JOIN reports_types t ON t.report_typeid=r.report_type WHERE userid=$1', [req.decoded.userid], (err, result) => {
         if(err) {
