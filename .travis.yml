@@ -2,7 +2,27 @@ language: node_js
 node_js:
   - "iojs"
   - "8"
-after_success:
-  - wget https://raw.githubusercontent.com/eternialz/nuit-de-l-info-2017-api/master/deploy.sh
-  - chmod +x deploy.sh
-  - ./deploy.sh
+
+before_deploy:
+  - zip -r cordonblue_v0.0.1.$TRAVIS_BUILD_NUMBER.zip *.js *.json public/ routes/
+  - mkdir -p dpl_cd_upload
+  - mv cordonblue_v0.0.1.$TRAVIS_BUILD_NUMBER.zip dpl_cd_upload/cordonblue_v0.0.1.$TRAVIS_BUILD_NUMBER.zip
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    local_dir: dpl_cd_upload
+    skip_cleanup: true
+    on:
+        all_branches: true
+    bucket: corbon-blue
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    bucket: corbon-blue
+    key: cordonblue_v0.0.1.$TRAVIS_BUILD_NUMBER.zip
+    bundle_type: zip
+    application: $EB_APP_ENV
+    deployment_group: $EB_APP_NAME
+    region: $AWS_DEFAULT_REGION
