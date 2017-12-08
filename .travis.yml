@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - "iojs"
+  - "8"
+after_success:
+  - wget https://raw.githubusercontent.com/eternialz/nuit-de-l-info-2017-api/master/deploy.sh
+  - chmod +x deploy.sh
+  - ./deploy.sh
