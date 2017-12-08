@@ -8,3 +8,5 @@ exports.db = {
   idleTimeoutMillis: 3000,
   connectionTimeoutMillis: 3000
 };
+
+exports.jwtSecret = process.env.secret

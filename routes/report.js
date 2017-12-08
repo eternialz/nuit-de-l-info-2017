@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const db = require('../db');
+const utils = require('../utils')
 
 //Fonction de vérification des chanmps
 function _assertNotNull(data){
@@ -8,6 +9,8 @@ function _assertNotNull(data){
   }
   return true
 }
+
+router.use(utils.isLogin)
 
 router.post('/save', function(req, res){
     var position = req.body.position
