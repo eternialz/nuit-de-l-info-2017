@@ -16,7 +16,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "start": "node app.js"
+    "start": "echo \"Not implemented\" && exit 0"
   },
   "repository": {
     "type": "git",
