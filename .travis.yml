@@ -23,5 +23,5 @@ deploy:
     env: $EB_APP_ENV
     app: $EB_APP_NAME
     region: $AWS_DEFAULT_REGION
-    bucket: corbon-blue
+    bucket_name: corbon-blue
     zip_file: cordonblue_v0.0.1.$TRAVIS_BUILD_NUMBER.zip

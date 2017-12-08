@@ -1,3 +1,4 @@
-node_modules
+node_modules/
+dpl_cd_upload/
 start.sh
 start.bat
