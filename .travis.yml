@@ -1,12 +1,11 @@
 language: node_js
 node_js:
-  - "iojs"
   - "8"
 
 before_deploy:
-  - zip -r cordonblue_v0.0.1.$TRAVIS_BUILD_NUMBER.zip *.js *.json public/ routes/
+  - zip -r cordonblue_v0.0.1.zip *.js *.json public/ routes/
   - mkdir -p dpl_cd_upload
-  - mv cordonblue_v0.0.1.$TRAVIS_BUILD_NUMBER.zip dpl_cd_upload/cordonblue_v0.0.1.$TRAVIS_BUILD_NUMBER.zip
+  - mv cordonblue_v0.0.1.zip dpl_cd_upload/cordonblue_v0.0.1.zip
 
 deploy:
   - provider: elasticbeanstalk
@@ -16,4 +15,4 @@ deploy:
     app: $EB_APP_NAME
     region: $AWS_DEFAULT_REGION
     bucket_name: corbon-blue
-    zip_file: dpl_cd_upload/cordonblue_v0.0.1.$TRAVIS_BUILD_NUMBER.zip
+    zip_file: dpl_cd_upload/cordonblue_v0.0.1.zip
