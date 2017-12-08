@@ -55,7 +55,7 @@ router.get('/nearby', function(req, res){
             } else {
                 return res.json({
                     success: true,
-                    result = result
+                    result: result
                 })
             }
     });
