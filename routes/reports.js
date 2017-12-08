@@ -34,7 +34,7 @@ router.get('/nearby', function(req, res){
 })
 
 router.get('/types', (req, res) => {
-    db.query('SELECT name, avgduration FROM reports_types', [], (err, result) => {
+    db.query('SELECT report_typeid as id, name, avgduration FROM reports_types', [], (err, result) => {
         if(err) {
             return res.status(500).json({
                 success: false,
@@ -69,6 +69,21 @@ router.post('/create', function(req, res) {
         }
         return res.json({
             success: true
+        })
+    })
+})
+
+router.get('/history', (req, res) => {
+    db.query('SELECT r.reportid, r.latitude, r.longitude, r.report_time, t.name FROM reports r INNER JOIN reports_types t ON t.report_typeid=r.report_type WHERE userid=$1', [req.decoded.userid], (err, result) => {
+        if(err) {
+            return res.json({
+                success: false,
+                error : 'SQL error : ' + err.stack
+            })
+        }
+        return res.json({
+            success: true,
+            reports: result.rows
         })
     })
 })
