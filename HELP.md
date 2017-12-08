@@ -57,7 +57,7 @@ Get nearby incident reports:
 - Position longitude
 
 ```shell
-curl -H "Content-Type: application/json" -X POST -d '{"report_type" : 1, "latitude": 11.93829, "longitude": 19.9382938}' http://cordonbleu.erfani.fr/reports/nearby
+curl -H "Content-Type: application/json" -X GET -d '{"report_type" : 1, "latitude": 11.93829, "longitude": 19.9382938}' http://cordonbleu.erfani.fr/reports/nearby
 ```
 
 ### Create by name
