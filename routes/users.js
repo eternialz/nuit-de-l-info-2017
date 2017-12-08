@@ -36,7 +36,6 @@ router.post('/register', function (req, res) {
     }
     // Hasher le mot de pass
     var salt = bcrypt.genSaltSync(10);
-    console.log(userPassword, userEmail, userName, salt)
     var passwordHash = bcrypt.hashSync(userPassword, salt);
     // stocker les donnée en db
     db.query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3)', [userName, userEmail, passwordHash], (err, result) => {
@@ -61,6 +60,7 @@ router.post('/auth', function (req, res) {
     }
     db.query('SELECT password, userid FROM users WHERE email=$1', [req.body.email], (err, result) => {
         if(err) {
+            console.error(err.stack)
             return res.status(500).json({
                 success: false,
                 error: "SQL Error : " + err.stack
