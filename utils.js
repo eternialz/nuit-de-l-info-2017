@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
 const config = require('./config');
 
-function validateEmail(email) {
-    var re = /^(([^<>()[]\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+exports.validateEmail = function (email)
+{
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 }
 
@@ -20,8 +21,12 @@ function isLogin(req, res, next) {
                 next();
             }
         });
+    } else {
+        return res.status(403).json({
+            success: false,
+            error: 'A token is require for authentification'
+        })
     }
 }
 
-exports.validateEmail = validateEmail;
 exports.isLogin = isLogin;

@@ -4,10 +4,10 @@ const utils = require('../utils')
 
 //Fonction de vérification des chanmps
 function _assertNotNull(data){
-  if (!data.latitude || !data.longitude || !data.type){
-    return false
-  }
-  return true
+    if (isNaN(data.latitude) || isNaN(data.longitude) || !data.type) {
+        return false
+    }
+    return true
 }
 
 router.get('/nearby', function(req, res){
@@ -52,8 +52,8 @@ router.use(utils.isLogin)
 
 router.post('/create', function(req, res) {
     //Vérifier si les données envoyées sont null, si oui renvoyer une exception
-    if(_assertNotNull(req.body)) {
-        return res.json({
+    if(!_assertNotNull(req.body)) {
+        return res.status(400).json({
             success: false,
             error : 'Data validation error'
         })
@@ -75,13 +75,12 @@ router.post('/create', function(req, res) {
 
 router.post('/createbyname', function(req, res) {
     //Vérifier si les données envoyées sont null, si oui renvoyer une exception
-    if(_assertNotNull(req.body)) {
-        return res.json({
+    if(!_assertNotNull(req.body)) {
+        return res.status(400).json({
             success: false,
             error : 'Data validation error'
         })
     }
-
     db.getClient((err, client, done) => {
         client.query('SELECT report_typeid FROM reports_types WHERE name=$1', [req.body.type], (err, result) => {
             if(err) {
@@ -99,10 +98,10 @@ router.post('/createbyname', function(req, res) {
                 })
             }
             else {
-                client.query('INSERT INTO reports(latitude, longitude, report_type, userid) VALUES ($1, $2, $3, $4)', [req.body.latitude, req.body.longitude, result.rows[0].report_typeid, req.decoded.userid], (err2, result2) => {
+                client.query('INSERT INTO reports(latitude, longitude, report_type, userid) VALUES ($1, $2, $3, $4)', [req.body.latitude, req.body.longitude, result.rows[0].report_typeid, req.decoded.data.userid], (err2, result2) => {
                     done()
                     if(err2) {
-                        return res.json({
+                        return res.status(500).json({
                             success: false,
                             error : 'SQL error : ' + err2.stack
                         })

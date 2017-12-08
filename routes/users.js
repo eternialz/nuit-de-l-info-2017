@@ -16,10 +16,22 @@ router.post('/register', function (req, res) {
     var userName = req.body.name;
     var userEmail = req.body.email;
     var userPassword = req.body.password;
-    if (!_assertNotNull(req.body) || !utils.validateEmail(userEmail) || userPassword.lenght < 8) {
+    if (!userEmail || !utils.validateEmail(req.body.email)) {
         return res.status(400).json({
             success: false,
-            error: "Data validation error"
+            error: "Missing or invalid email"
+        })
+    }
+    if (!userName) {
+        return res.status(400).json({
+            success: false,
+            error: "Missing name"
+        })
+    }
+    if (!userPassword || userPassword.length < 8) {
+        return res.status(400).json({
+            success: false,
+            error: "Missing or too shot password"
         })
     }
     // Hasher le mot de pass
@@ -54,7 +66,7 @@ router.post('/auth', function (req, res) {
                 error: "SQL Error : " + err.stack
             })
         }
-        if(!result.row || !result.row[0]) {
+        if(!result.rows || !result.rows[0]) {
             return res.json({
                 success: false,
                 error: "User don't exist"
