@@ -76,5 +76,5 @@ curl -H "Content-Type: application/json" -X POST -d '{"report_name" : "incendie"
 Get root informations
 
 ```
-curl -H "Content-Type: application/json" -X POST -d '{}' http://cordonbleu.erfani.fr/help
+curl -H "Content-Type: application/json" -X GET -d '{}' http://cordonbleu.erfani.fr/help
 ```
