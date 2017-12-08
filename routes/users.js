@@ -68,7 +68,7 @@ router.post('/auth', function (req, res) {
         } else {
             var token = jwt.sign({
                 exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 30), // 30 days token
-                data: result.rows[0].userid
+                data: {userid: result.rows[0].userid}
             }, config.jwtSecret);
             return res.json({
                 success: true,

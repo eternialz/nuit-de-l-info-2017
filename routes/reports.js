@@ -4,7 +4,7 @@ const utils = require('../utils')
 
 //Fonction de vérification des chanmps
 function _assertNotNull(data){
-  if (!data.position || !data.type){
+  if (!data.latitude || !data.longitude || !data.type){
     return false
   }
   return true
@@ -50,28 +50,25 @@ router.get('/types', (req, res) => {
 
 router.use(utils.isLogin)
 
-router.post('/save', function(req, res){
-    var position = req.body.position
-    var type = req.body.type
-
+router.post('/create', function(req, res) {
     //Vérifier si les données envoyées sont null, si oui renvoyer une exception
-    if(_assertNotNull(req.body)){
-      return res.json({
-        success: false,
-        error : 'Data validation error'
-      })
+    if(_assertNotNull(req.body)) {
+        return res.json({
+            success: false,
+            error : 'Data validation error'
+        })
     }
 
     //Enregistrer le report dans la base de données
-    db.query('INSERT INTO report(position, type) VALUES ($1, $2)', [position, type], (err, result) => {
+    db.query('INSERT INTO reports(latitude, longitude, report_type, userid) VALUES ($1, $2, $3, $4)', [req.body.latitude, req.body.longitude, req.body.type, req.decoded.userid], (err, result) => {
         if(err) {
             return res.json({
-              success: false,
-              error : 'SQL error : ' + err.stack
+                success: false,
+                error : 'SQL error : ' + err.stack
             })
         }
         return res.json({
-          success: true
+            success: true
         })
     })
 })
