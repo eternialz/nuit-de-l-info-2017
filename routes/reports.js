@@ -17,7 +17,9 @@ router.get('/nearby', function(req, res){
     const earth_radius = 6371;
     const max_distance = 20;
     // http://www.movable-type.co.uk/scripts/latlong.html
-    db.query('SELECT * from reports WHERE $1*acos(cos(pi()*$2/180))*cos(pi()*latitude/180)*cos(pi()(longitude-$3)/180) + sin(pi()*$2/180)*sin(pi()*latitude/180)) < $4',
+    db.query('SELECT * FROM reports INNER JOIN reports_types t ON t.report_typeid=report_type \
+    WHERE $1*acos(cos(pi()*$2/180)*cos(pi()*latitude/180)*cos(pi()(longitude-$3)/180) + sin(pi()*$2/180)*sin(pi()*latitude/180)) < $4 \
+    AND report_time+t.avgduration > current_timestamp', // only get recent report
         [earth_radius, latitude, longitude, max_distance], (err, result) => {
             if (err) {
                 return res.status(500).json({
