@@ -9,14 +9,6 @@ before_deploy:
   - mv cordonblue_v0.0.1.$TRAVIS_BUILD_NUMBER.zip dpl_cd_upload/cordonblue_v0.0.1.$TRAVIS_BUILD_NUMBER.zip
 
 deploy:
-  - provider: s3
-    access_key_id: $AWS_ACCESS_KEY_ID
-    secret_access_key: $AWS_SECRET_ACCESS_KEY
-    local_dir: dpl_cd_upload
-    skip_cleanup: true
-    on:
-        all_branches: true
-    bucket: corbon-blue
   - provider: elasticbeanstalk
     access_key_id: $AWS_ACCESS_KEY_ID
     secret_access_key: $AWS_SECRET_ACCESS_KEY
@@ -24,4 +16,4 @@ deploy:
     app: $EB_APP_NAME
     region: $AWS_DEFAULT_REGION
     bucket_name: corbon-blue
-    zip_file: cordonblue_v0.0.1.$TRAVIS_BUILD_NUMBER.zip
+    zip_file: dpl_cd_upload/cordonblue_v0.0.1.$TRAVIS_BUILD_NUMBER.zip
